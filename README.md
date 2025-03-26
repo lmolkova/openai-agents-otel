@@ -9,11 +9,13 @@ This is a small demo that uses OTel and OpenIA Agents tracing.
 
 ## Notable things
 
-1. Agents instrumentation is provided by `openinference-instrumentation-openai-agents` and magically used by `opentelemetry-distro`.
+0. When tracing is enabled, to goes to OpenAI and OTel, if I disable it, there are no traces for OpenAI Agents at all (neither to OpenAI, nor to OTel endpoint). It should be possible to let users send telemetry to the backend of their choice while allowing them to opt-out of OpenAI
+ 
+2. Agents instrumentation is provided by `openinference-instrumentation-openai-agents` and magically used by `opentelemetry-distro`.
 
     Look inside `OpenInferenceTracingProcessor`, you can see they have to do it in a [hacky way](https://github.com/Arize-ai/openinference/blob/c4e225244adc287b9b011972bc980550939e126a/python/instrumentation/openinference-instrumentation-openai-agents/src/openinference/instrumentation/openai_agents/_processor.py#L86).
 
-2. Check out the app code - thanks to OpenInference hard work, the correlation between FastAPI (OTel) and OpenAI spans mostly works
+3. Check out the app code - thanks to OpenInference hard work, the correlation between FastAPI (OTel) and OpenAI spans mostly works
    and we can mix and match OTel and OpenAI instrumentation and get correlated data.
 
     ```python
@@ -37,7 +39,7 @@ This is a small demo that uses OTel and OpenIA Agents tracing.
         requests.get("https://example.com") # you hope this HTTP request would become a child of openai-span, but nope, it won't
     ```
 
-3. Check out logging and metrics - OTel covers other telemetry data and correlates it all
+4. Check out logging and metrics - OTel covers other telemetry data and correlates it all
 
 ## Screenshots
 
