@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  agents:
+    build:
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://host.docker.internal:4317
+      - OTEL_SERVICE_NAME=agent
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=true
+      - OTEL_LOGS_EXPORTER=otlp
+
+  aspire:
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:latest
+    ports:
+      - "18888:18888"
+      - "4317:18889"
+    environment:
+      - DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS=true
